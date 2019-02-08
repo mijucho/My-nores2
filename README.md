@@ -1,4 +1,4 @@
-# My-nores2
+# My-note2
 
 ## Wk5 -API
 App.jsx
