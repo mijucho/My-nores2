@@ -90,3 +90,126 @@ export function getDefinition(name) {
   })
 }
 ```
+##Wk5-react
+App.jsx
+```
+import React from "react";
+import Wombats from "./Wombats";
+import NewWombatForm from "./NewWombatForm";
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      wombats: ["sam", "tim"]
+    };
+
+    this.addWombat = this.addWombat.bind(this);
+  }
+
+  addWombat(wombat) {
+    let newWombats = [...this.state.wombats];
+    newWombats.push(wombat);
+
+    this.setState({
+      wombats: newWombats
+    });
+  }
+  render() {
+    return (
+      <React.Fragment>
+        <h1>HELLO</h1>
+        <Wombats wombats={this.state.wombats} />
+        <NewWombatForm addWombat={this.addWombat} />
+      </React.Fragment>
+    );
+  }
+}
+
+export default App;
+```
+NewWombatForm.jsx
+```
+import React from "react";
+import Wombat from "./Wombat";
+
+class NewWombatForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      wombat: ""
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.addWombat(this.state.wombat);
+    this.setState({ wombat: "" });
+  }
+
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            name="wombat"
+            value={this.state.wombat}
+            onChange={this.handleChange}
+          />
+          <input type="submit" value="Save" />
+        </form>
+      </div>
+    );
+  }
+}
+
+export default NewWombatForm;
+```
+Wombats.jsx
+```
+import React from "react";
+import Wombat from "./Wombat";
+
+class Wombats extends React.Component {
+  render() {
+    return (
+      this.props.wombats.length > 0 && (
+        <ul>
+          {this.props.wombats.map((wombat, index) => {
+            return <Wombat key={"wombat-${index}"} wombat={wombat} />;
+          })}
+        </ul>
+      )
+    );
+  }
+}
+
+export default Wombats;
+```
+ Wombat.jsx
+ ```
+ import React from "react";
+
+class Wombat extends React.Component {
+  render() {
+    return (
+      <React.Fragment>
+        <li>{this.props.wombat}</li>
+      </React.Fragment>
+    );
+  }
+}
+
+export default Wombat;
+```
