@@ -90,7 +90,7 @@ export function getDefinition(name) {
   })
 }
 ```
-##Wk5-react
+##Wk5-react--
 App.jsx
 ```
 import React from "react";
