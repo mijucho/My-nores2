@@ -213,3 +213,92 @@ class Wombat extends React.Component {
 
 export default Wombat;
 ```
+## Wk5 -REACT,REDUX
+clients/index.js
+```
+import React from "react";
+import ReactDOM from "react-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+
+import App from "./components/App";
+import reducers from "./reducers";
+
+const store = createStore(
+  reducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+document.addEventListener("DOMContentLoaded", () => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById("app")
+  );
+});
+```
+App.jsx
+```
+import { connect } from "react-redux";
+
+import Wombats from "./Wombats";
+import NewWombatForm from "./NewWombatForm";
+
+import { addWombat } from "../actions";
+
+const App = props => {
+  return (
+    <React.Fragment>
+      <h1>HELLO</h1>
+      <Wombats wombats={this.props.wombats} />
+      <NewWombatForm
+        addWombat={wombat => this.props.dispatch(addWombat(wombat))}
+      />
+    </React.Fragment>
+  );
+};
+
+function mapStateToProps(state) {
+  return {
+    wombats: state.wombats
+  };
+}
+export default connect(mapStateToProps)(App);
+```
+reducers/index.js
+```
+import { combineReducers } from "redux";
+import wombats from "./wombats";
+
+const reducers = combineReducers({
+  wombats
+});
+
+export default reducers;
+```
+reducers/wombats.js
+```
+const initialState = ["sam", "tim"];
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "ADD_WOMBAT":
+      return [...state, action.wombat];
+    default:
+      return state;
+  }
+  return state;
+};
+
+export default reducer;
+```
+actions/index.js
+```
+export function addWombat(wombat) {
+  return {
+    type: "ADD_WOMBAT",
+    wombat
+  };
+}
+```
